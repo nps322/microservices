@@ -1,0 +1,13 @@
+fastapi[standard]==0.141.1
+pydantic>=2,<3
+pydantic-settings==2.15.0
+email-validator>=2,<3
+
+aiokafka>=0.14,<1
+
+# --- Redis (planned) ---
+redis>=8,<9
+
+#elastickm
+
+elasticsearch[async]==8.13.2
