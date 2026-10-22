@@ -38,3 +38,15 @@ class MovieSearchRepository:
         except NotFoundError:
             raise DocumentNotFoundError
         return MovieSearchDocument.model_validate(response["_source"])
+
+
+
+    async def search(self, query: str, limit: int = 3, offset: int = 0) -> list[MovieSearchDocument]:
+
+        response = await self.client.search(
+        index=self.index_name,
+        query={"match": {"title": query}},
+        size=limit,
+        from_=offset)
+
+        return [MovieSearchDocument(**hit["_source"]) for hit in response["hits"]["hits"]]

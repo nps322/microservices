@@ -2,7 +2,7 @@ from pydantic import BaseModel, ConfigDict
 
 
 class MovieSearchDocument(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="ignore")
 
     id: int
     title: str
