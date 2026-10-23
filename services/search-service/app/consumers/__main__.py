@@ -2,7 +2,6 @@ import asyncio
 import logging
 
 from aiokafka import AIOKafkaConsumer
-from pydantic import ValidationError
 
 from app.core.config import settings, client
 from app.schemas.events import MovieCreatedV1

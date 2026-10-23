@@ -41,12 +41,24 @@ class MovieSearchRepository:
 
 
 
-    async def search(self, query: str, limit: int = 3, offset: int = 0) -> list[MovieSearchDocument]:
+    async def search(self, query: str, 
+                     limit: int = 3, 
+                     offset: int = 0,
+                     director_id: int | None = None) -> list[MovieSearchDocument]:
+
+        must_case = [{"match": {"title": query}}]
+        filter_case = []
+
+        if director_id is not None:
+            filter_case.append({"term": {"director_id": director_id}})
+
+        search_query = {"bool":{"must":must_case,
+                                "filter":filter_case}}
 
         response = await self.client.search(
-        index=self.index_name,
-        query={"match": {"title": query}},
-        size=limit,
-        from_=offset)
+            index=self.index_name,
+            query=search_query,
+            size=limit,
+            from_=offset)
 
         return [MovieSearchDocument(**hit["_source"]) for hit in response["hits"]["hits"]]

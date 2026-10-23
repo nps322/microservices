@@ -154,6 +154,23 @@ services:
         condition: service_healthy
 
     restart: unless-stopped
+  search-worker:
+    env_file:
+      - .env
+
+    build:
+      context: ./services/search-service
+      dockerfile: Dockerfile
+
+    command: ["python", "-m", "app.consumers"]
+
+    depends_on:
+      kafka:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+    restart: unless-stopped
 
 
 volumes:
